@@ -1,0 +1,515 @@
+{
+  "address": "649vJ9q8JBKY7pvc5Uspwf6diESX4qKKjVQ1DTCubNQX",
+  "metadata": {
+    "name": "raffle",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "buy_ticket",
+      "discriminator": [
+        11,
+        24,
+        17,
+        193,
+        168,
+        116,
+        164,
+        169
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ticket",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  99,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "raffle"
+              },
+              {
+                "kind": "arg",
+                "path": "ticket_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "raffle",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "raffle.owner",
+                "account": "Raffle"
+              },
+              {
+                "kind": "arg",
+                "path": "raffle_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "raffle_id",
+          "type": "string"
+        },
+        {
+          "name": "ticket_id",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "claim_prize",
+      "discriminator": [
+        157,
+        233,
+        139,
+        121,
+        246,
+        62,
+        234,
+        235
+      ],
+      "accounts": [
+        {
+          "name": "winner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "raffle",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "raffle.owner",
+                "account": "Raffle"
+              },
+              {
+                "kind": "arg",
+                "path": "raffle_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ticket",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  99,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "raffle"
+              },
+              {
+                "kind": "account",
+                "path": "ticket.ticket_id",
+                "account": "Ticket"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "raffle_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "create_raffle",
+      "discriminator": [
+        226,
+        206,
+        159,
+        34,
+        213,
+        207,
+        98,
+        126
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "raffle",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              },
+              {
+                "kind": "arg",
+                "path": "raffle_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "raffle_id",
+          "type": "string"
+        },
+        {
+          "name": "ticket_price",
+          "type": "u64"
+        },
+        {
+          "name": "max_entries",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "pick_winner",
+      "discriminator": [
+        227,
+        62,
+        25,
+        73,
+        132,
+        106,
+        68,
+        96
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "raffle"
+          ]
+        },
+        {
+          "name": "raffle",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              },
+              {
+                "kind": "arg",
+                "path": "raffle_id"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "raffle_id",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Raffle",
+      "discriminator": [
+        143,
+        133,
+        63,
+        173,
+        138,
+        10,
+        142,
+        200
+      ]
+    },
+    {
+      "name": "Ticket",
+      "discriminator": [
+        41,
+        228,
+        24,
+        165,
+        78,
+        90,
+        235,
+        200
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidTicketPrice",
+      "msg": "Invalid ticket price. Must be greater than zero."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMaxEntries",
+      "msg": "Invalid maximum entries. Must be greater than zero."
+    },
+    {
+      "code": 6002,
+      "name": "RaffleNotActive",
+      "msg": "Raffle is not active."
+    },
+    {
+      "code": 6003,
+      "name": "RaffleAlreadyClaimed",
+      "msg": "Raffle has already been claimed."
+    },
+    {
+      "code": 6004,
+      "name": "NoEntries",
+      "msg": "No entries in the raffle."
+    },
+    {
+      "code": 6005,
+      "name": "Unauthorized",
+      "msg": "Unauthorized action."
+    },
+    {
+      "code": 6006,
+      "name": "WinnerAlreadySelected",
+      "msg": "Winner has already been selected."
+    },
+    {
+      "code": 6007,
+      "name": "RaffleSoldOut",
+      "msg": "Raffle is sold out."
+    },
+    {
+      "code": 6008,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds to buy ticket."
+    },
+    {
+      "code": 6009,
+      "name": "EntriesNotFull",
+      "msg": "Entries not full"
+    },
+    {
+      "code": 6010,
+      "name": "WinnerChosen",
+      "msg": "Raffle winner already chosen"
+    },
+    {
+      "code": 6011,
+      "name": "WinnerNotChosen",
+      "msg": "Raffle winner not chosen"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidWinner",
+      "msg": "Invalid winner"
+    },
+    {
+      "code": 6013,
+      "name": "MathOverflow",
+      "msg": "Math overflow"
+    },
+    {
+      "code": 6014,
+      "name": "RandomnessAlreadyRevealed",
+      "msg": "Randomness already revealed"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidRandomnessAccount",
+      "msg": "Invalid randomness account"
+    },
+    {
+      "code": 6016,
+      "name": "RandomnessExpired",
+      "msg": "Randomness expired"
+    },
+    {
+      "code": 6017,
+      "name": "RandomnessNotResolved",
+      "msg": "Randomness not resolved"
+    },
+    {
+      "code": 6018,
+      "name": "RandomNumberGenerationFailed",
+      "msg": "Random number generation failed"
+    }
+  ],
+  "types": [
+    {
+      "name": "Raffle",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "raffle_id",
+            "type": "string"
+          },
+          {
+            "name": "ticket_price",
+            "type": "u64"
+          },
+          {
+            "name": "max_entries",
+            "type": "u32"
+          },
+          {
+            "name": "entries",
+            "type": "u32"
+          },
+          {
+            "name": "is_active",
+            "type": "bool"
+          },
+          {
+            "name": "is_claimed",
+            "type": "bool"
+          },
+          {
+            "name": "winner_ticket",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ticket",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "raffle",
+            "type": "pubkey"
+          },
+          {
+            "name": "ticket_id",
+            "type": "u32"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "SEED",
+      "type": "string",
+      "value": "\"anchor\""
+    }
+  ]
+}
